@@ -1,0 +1,33 @@
+/* Altera a cor da borda dos INPUTS */
+.form-control:focus{
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Altera a cor da borda do checkbox */
+.form-check-input{
+    border-color: #dc3545 !important; 
+}
+
+/* Altera a cor da borda do checkbox */
+.form-check-input:focus{
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Quando o checkbox estiver selecionado */
+.form-check-input:checked {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Remove sombra azul ao focar */
+.form-check-input:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-select:focus{
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
