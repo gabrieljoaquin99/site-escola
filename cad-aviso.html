@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cadastro de Avisos</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="css/estilo.css">
+  </head>
+  <body>
+    <!--TOPO NAVBAR-->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-danger p-2">
+      <a href="" class="navbar-brand col-5 col-sm-2 ms-md-3">
+        <img src="img/logo.avif" class="align-items-center w-25" alt="LOGO">
+        Elementary School
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-target">
+        <span class="fa fa-bars text-light display-5"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="nav-target">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="avisos.html">Avisos</a>
+          </li>        
+          <li class="nav-item m-md-2">
+            <a class="nav-link active" href="cad-aviso.html">Cadastro de Avisos</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-turma.html">Cadastro de Turmas</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-usuario.html">Cadastro de Usuários</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-prof-turma.html">Professores / Turmas</a> 
+          </li>
+          <li class="nav-item m-md-2 text-end me-2">
+            <a class="nav-link" href="login.html">
+              Sair
+              <span class="fa fa-close"></span>
+            </a> 
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="row m-2">
+      <!-- INFO USER -->
+      <div class="align-self-start p-2 col-md-3 mt-2 border border-danger rounded">
+        <div class="d-flex align-items-center justify-content-around">
+          <img src="fontawesome/svgs/solid/user.svg" class="p-2 bg-danger" alt="" width="80" height="80">
+          <div style="overflow: hidden; word-wrap: break-word;">
+            <div class="text-truncate">
+              <span class="m-1 h6">Nome:</span>
+              <span class="">Gabriel Joaquin</span>
+            </div>
+
+            <div class="text-truncate">
+              <span class="m-1 h6">Turma:</span>
+              <span class="">205/2025</span>
+            </div>
+
+            <div class="text-truncate">
+              <span class="m-1 h6">Prof.:</span>
+              <span class="">Rosane Elaine</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAD AVISO -->
+      <div class="p-2 col ms-md-2 mt-2 border border-danger rounded">
+        <div class="display-6 text-center">Cadastrar Aviso</div>
+        <br>
+        <input class="form-control mb-2" type="text" id="aviso_assunto" placeholder="Assunto">
+        <textarea class="form-control mb-2" id="aviso_mensagem" placeholder="Mensagem" rows="4" cols="40"></textarea>
+        
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <div class="form-check m-0 w-50">
+                <input class="form-check-input text-danger" type="checkbox" id="ckb_avisoGeral" checked>
+                <label class="form-check-label" for="ckb_avisoGeral">
+                  Aviso Geral?
+                </label>
+              </div>
+              <select class="form-select w-100" id="aviso_turma" disabled>
+                <option selected>Turma</option>
+                <option value="123">123</option>
+                <option value="456">456</option>
+                <option value="789">789</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <div class="form-check m-0 w-50">
+                <input class="form-check-input text-danger" type="checkbox" id="ckb_avisoAluno" disabled>
+                <label class="form-check-label" for="ckb_avisoAluno">
+                  Aluno Específico?
+                </label>
+              </div>
+              <select class="form-select w-100" id="aviso_aluno" disabled>
+                <option selected>Aluno</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input text-danger" type="checkbox" id="ckb_somenteResp">
+          <label class="form-check-label" for="ckb_somenteResp">
+            Somente Responsáveis?
+          </label>
+        </div>
+        
+        <br>
+        <button class="btn btn-danger w-100" url="">Adicionar</button>
+        <p id="mensagem" style="color:red;"></p>
+      </div>
+    </div>
+
+    <!-- AVISOS -->
+    <div class="row m-2">
+      <div class="align-self-start p-2 col-md-3"></div>
+
+      <div class="p-2 col ms-md-2 border border-danger rounded">
+        <div class="display-6 text-center">Avisos</div>
+        <br>
+      </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+  </body>
+</html>

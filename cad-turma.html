@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cadastro de Turmas</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="css/estilo.css">
+  </head>
+  <body>
+    <!--TOPO NAVBAR-->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-danger p-2">
+      <a href="" class="navbar-brand col-5 col-sm-2 ms-md-3">
+        <img src="img/logo.avif" class="align-items-center w-25" alt="LOGO">
+        Elementary School
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-target">
+        <span class="fa fa-bars text-light display-5"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="nav-target">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="avisos.html">Avisos</a>
+          </li>        
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-aviso.html">Cadastro de Avisos</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link active" href="cad-turma.html">Cadastro de Turmas</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-usuario.html">Cadastro de Usuários</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-prof-turma.html">Professores / Turmas</a> 
+          </li>
+          <li class="nav-item m-md-2 text-end me-2">
+            <a class="nav-link" href="login.html">
+              Sair
+              <span class="fa fa-close"></span>
+            </a> 
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="row m-2">
+      <!-- INFO USER -->
+      <div class="align-self-start p-2 col-md-3 mt-2 border border-danger rounded">
+        <div class="d-flex align-items-center justify-content-around">
+          <img src="fontawesome/svgs/solid/user.svg" class="p-2 bg-danger" alt="" width="80" height="80">
+          <div style="overflow: hidden; word-wrap: break-word;">
+            <div class="text-truncate">
+              <span class="m-1 h6">Nome:</span>
+              <span class="">Gabriel Joaquin</span>
+            </div>
+
+            <div class="text-truncate">
+              <span class="m-1 h6">Turma:</span>
+              <span class="">205/2025</span>
+            </div>
+
+            <div class="text-truncate">
+              <span class="m-1 h6">Prof.:</span>
+              <span class="">Rosane Elaine</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAD TURMA -->
+      <div class="p-2 col ms-md-2 mt-2 border border-danger rounded">
+        <div class="display-6 text-center">Cadastrar Turma</div>
+        <br>
+        <input class="form-control mb-2" type="text" id="turma_numero" placeholder="Número">
+        <input class="form-control mb-2" type="text" id="turma_nome" placeholder="Nome (EX: 5° ano A)">
+
+        <div class="row">
+          <div class="col-md-5 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <select class="form-select w-100" id="turma_turno">
+                <option selected>Turno</option>
+              </select>
+            </div>
+          </div>
+         
+          <div class="col-md-5 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <select class="form-select w-100" id="turma_profPrinc">
+                <option selected>Professor(a) Principal</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-2 mt-2 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <input class="form-check-input text-danger" type="checkbox" id="turma_ativo" checked>
+                <label class="form-check-label" for="turma_ativo">
+                  Turma Ativa?
+                </label>
+            </div>
+          </div>
+        </div>
+        
+        <br>
+        <button id="btnAdicionar" type="button" class="btn btn-danger w-100" url="">Adicionar</button>
+        <p class="mb-0" id="mensagem" style="color:red;"></p>
+      </div>
+    </div>  
+
+    <!-- TURMAS -->
+    <div class="row m-2">
+      <div class="align-self-start p-2 col-md-3"></div>
+
+      <div class="p-2 col ms-md-2 border border-danger rounded">
+        <div class="display-6 text-center">Turmas</div>
+        <br>
+        <ul id="listaTurmas" class="list-group"></ul>
+      </div>
+    </div>
+    
+    <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalExcluirLabel">Confirmar Exclusão</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            Tem certeza que deseja excluir este usuário?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" id="btnConfirmarExcluir" class="btn btn-danger">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- SCRIPTS FIREBASE -->
+    <script type="module">
+      import { db } from './js/firebase-init.js';
+      import {
+        ref,
+        push,
+        onValue,
+        remove,
+        update
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+    
+      let editando = false;
+      let chaveEditando = null;
+      let chaveParaExcluir = null;
+    
+      const listaTurmas = document.getElementById("listaTurmas");
+      const mensagem = document.getElementById("mensagem");
+      const btnAdicionar = document.getElementById("btnAdicionar");
+      const turmaProfSelect = document.getElementById("turma_profPrinc");
+    
+      const professoresMap = {}; // UID → Nome
+    
+      // Carregar professores no select
+      const carregarProfessores = () => {
+        const profRef = ref(db, "usuarios/");
+        onValue(profRef, (snapshot) => {
+          turmaProfSelect.innerHTML = '<option selected value="">Professor(a) Principal</option>';
+          snapshot.forEach((childSnapshot) => {
+            const usuario = childSnapshot.val();
+            const uid = childSnapshot.key;
+    
+            if (usuario.tipo === "2" && usuario.nome) {
+              professoresMap[uid] = usuario.nome;
+    
+              const option = document.createElement("option");
+              option.value = uid;
+              option.textContent = usuario.nome;
+              turmaProfSelect.appendChild(option);
+            }
+          });
+        });
+      };
+    
+      carregarProfessores();
+    
+      const limparFormulario = () => {
+        document.getElementById("turma_numero").value = "";
+        document.getElementById("turma_nome").value = "";
+        document.getElementById("turma_turno").value = "Turno";
+        turmaProfSelect.value = "";
+      };
+    
+      btnAdicionar.addEventListener("click", () => {
+        const numero = document.getElementById("turma_numero").value.trim();
+        const nome = document.getElementById("turma_nome").value.trim();
+        const turno = document.getElementById("turma_turno").value;
+        const profPrincUID = turmaProfSelect.value.trim();
+    
+        if (!numero || !nome || turno === "Turno") {
+          mensagem.innerText = "Preencha todos os campos obrigatórios.";
+          mensagem.style.color = "red";
+          return;
+        }
+    
+        const turma = {
+          numero,
+          nome,
+          turno,
+          profPrinc: profPrincUID !== "" ? profPrincUID : null
+        };
+    
+        if (editando && chaveEditando) {
+          update(ref(db, "turmas/" + chaveEditando), turma)
+            .then(() => {
+              mensagem.innerText = "Turma atualizada com sucesso!";
+              mensagem.style.color = "green";
+              limparFormulario();
+              editando = false;
+              chaveEditando = null;
+              btnAdicionar.innerText = "Adicionar";
+            })
+            .catch((error) => {
+              mensagem.innerText = "Erro ao atualizar turma.";
+              console.error(error);
+            });
+        } else {
+          push(ref(db, "turmas/"), turma)
+            .then(() => {
+              mensagem.innerText = "Turma adicionada com sucesso!";
+              mensagem.style.color = "green";
+              limparFormulario();
+            })
+            .catch((error) => {
+              mensagem.innerText = "Erro ao adicionar turma.";
+              console.error(error);
+            });
+        }
+      });
+    
+      // Listar turmas
+      onValue(ref(db, "turmas/"), (snapshot) => {
+        listaTurmas.innerHTML = "";
+        snapshot.forEach((childSnapshot) => {
+          const turma = childSnapshot.val();
+          const key = childSnapshot.key;
+    
+          const nomeProfessor = turma.profPrinc
+            ? (professoresMap[turma.profPrinc] || "Desconhecido")
+            : "Nenhum";
+    
+          const li = document.createElement("li");
+          li.className = "list-group-item d-flex justify-content-between align-items-center";
+    
+          li.innerHTML = `
+            <div>
+              <strong>${turma.numero}</strong> - ${turma.nome} - Turno: ${turma.turno} - Prof: ${nomeProfessor}
+            </div>
+            <div>
+              <button class="fa fa-pen-to-square text-light btn btn-sm btn-warning me-1"
+                onclick="editarTurma('${key}', '${turma.numero}', '${turma.nome}', '${turma.turno}', '${turma.profPrinc ?? ''}')"></button>
+              <button class="fa fa-trash text-light btn btn-sm btn-danger"
+                onclick="confirmarExcluir('${key}')"></button>
+            </div>
+          `;
+          listaTurmas.appendChild(li);
+        });
+      });
+    
+      // Editar turma
+      window.editarTurma = (chave, numero, nome, turno, profPrinc) => {
+        document.getElementById("turma_numero").value = numero;
+        document.getElementById("turma_nome").value = nome;
+        document.getElementById("turma_turno").value = turno;
+        turmaProfSelect.value = profPrinc || "";
+    
+        editando = true;
+        chaveEditando = chave;
+        btnAdicionar.innerText = "Atualizar";
+      };
+    
+      // Excluir turma
+      const btnConfirmarExcluir = document.getElementById("btnConfirmarExcluir");
+    
+      window.confirmarExcluir = (chave) => {
+        chaveParaExcluir = chave;
+        const modalExcluir = new bootstrap.Modal(document.getElementById('modalExcluir'));
+        modalExcluir.show();
+      };
+    
+      btnConfirmarExcluir.addEventListener("click", () => {
+        if (chaveParaExcluir) {
+          remove(ref(db, "turmas/" + chaveParaExcluir))
+            .then(() => {
+              mensagem.innerText = "Turma excluída com sucesso!";
+              mensagem.style.color = "green";
+            })
+            .catch((error) => {
+              mensagem.innerText = "Erro ao excluir turma.";
+              console.error(error);
+            });
+    
+          const modalExcluir = bootstrap.Modal.getInstance(document.getElementById("modalExcluir"));
+          modalExcluir.hide();
+        }
+      });
+    </script>
+    
+  </body>
+</html>

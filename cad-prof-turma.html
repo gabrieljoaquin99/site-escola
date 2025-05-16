@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cadastro de Professores / Turma</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="css/estilo.css">
+  </head>
+  <body>
+    <!--TOPO NAVBAR-->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-danger p-2">
+      <a href="" class="navbar-brand col-5 col-sm-2 ms-md-3">
+        <img src="img/logo.avif" class="align-items-center w-25" alt="LOGO">
+        Elementary School
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-target">
+        <span class="fa fa-bars text-light display-5"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="nav-target">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="avisos.html">Avisos</a>
+          </li>        
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-aviso.html">Cadastro de Avisos</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-turma.html">Cadastro de Turmas</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-usuario.html">Cadastro de Usuários</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link active" href="cad-prof-turma.html">Professores / Turmas</a> 
+          </li>
+          <li class="nav-item m-md-2 text-end me-2">
+            <a class="nav-link" href="login.html">
+              Sair
+              <span class="fa fa-close"></span>
+            </a> 
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="row m-2">
+      <div class="align-self-start p-2 col-md-3 mt-2 border border-danger rounded">
+        <div class="d-flex align-items-center justify-content-around">
+          <img src="fontawesome/svgs/solid/user.svg" class="p-2 bg-danger" alt="" width="80" height="80">
+          <div style="overflow: hidden; word-wrap: break-word;">
+            <div class="text-truncate">
+              <span class="m-1 h6">Nome:</span>
+              <span class="">Gabriel Joaquin</span>
+            </div>
+            <div class="text-truncate">
+              <span class="m-1 h6">Turma:</span>
+              <span class="">205/2025</span>
+            </div>
+            <div class="text-truncate">
+              <span class="m-1 h6">Prof.:</span>
+              <span class="">Rosane Elaine</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-2 col ms-md-2 mt-2 border border-danger rounded">
+        <div class="display-6 text-center">Professor / Turmas</div><br>        
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <select class="form-select w-100" id="selectProfs">
+              <option selected>Professor(a)</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-2">
+            <select class="form-select w-100" id="selectTurmas" size="10" multiple>
+              <option selected>Turma</option>
+            </select>
+          </div>
+        </div>
+
+        <br>
+        <button id="btnAdicionar" type="button" class="btn btn-danger w-100">Adicionar</button>
+        <p id="mensagem" style="color:red;"></p>
+      </div>
+    </div>
+
+    <div class="row m-2">
+      <div class="align-self-start p-2 col-md-3"></div>
+      <div class="p-2 col ms-md-2 border border-danger rounded">
+        <div class="display-6 text-center">Professores & Turmas</div><br>
+        <div id="listaProfsTurmas"></div>
+      </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalExcluirLabel">Confirmar Exclusão</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">Tem certeza que deseja excluir este vínculo?</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" id="btnConfirmarExcluir" class="btn btn-danger">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- SCRIPTS FIREBASE -->
+    <script type="module">
+      import { getDatabase, ref, onValue, set, update, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+      import { db } from './js/firebase-init.js';
+
+      const selectProfs = document.getElementById('selectProfs');
+      const selectTurmas = document.getElementById('selectTurmas');
+      const btnAdicionar = document.getElementById('btnAdicionar');
+      const mensagem = document.getElementById('mensagem');
+      const listaProfsTurmas = document.getElementById('listaProfsTurmas');
+
+      const turnoMap = {
+        "1": "Manhã",
+        "2": "Tarde",
+        "3": "Noite",
+        "4": "Integral"
+      };
+
+      // Carregar Professores
+      const usuariosRef = ref(db, 'usuarios/');
+      onValue(usuariosRef, (snapshot) => {
+        selectProfs.innerHTML = '<option selected disabled>Selecione o professor</option>';
+        snapshot.forEach((childSnapshot) => {
+          const uid = childSnapshot.key;
+          const user = childSnapshot.val();
+          if (user.tipo === "2") {
+            const option = document.createElement('option');
+            option.value = uid;
+            option.textContent = user.nome;
+            selectProfs.appendChild(option);
+          }
+        });
+      });
+
+      // Carregar Turmas
+      const turmasRef = ref(db, 'turmas/');
+      onValue(turmasRef, (snapshot) => {
+        selectTurmas.innerHTML = '';
+        snapshot.forEach((childSnapshot) => {
+          const turmaId = childSnapshot.key;
+          const turma = childSnapshot.val();
+          const option = document.createElement('option');
+          const turnoNome = turnoMap[turma.turno] || '';
+          option.value = turmaId;
+          option.textContent = `${turma.numero} (${turma.nome}) - ${turnoNome}`;
+          selectTurmas.appendChild(option);
+        });
+      });
+
+      // Adicionar vínculo professor–turmas
+      btnAdicionar.addEventListener('click', () => {
+        const uidProfessor = selectProfs.value;
+        const turmasSelecionadas = Array.from(selectTurmas.selectedOptions).map(opt => opt.value);
+
+        if (!uidProfessor || turmasSelecionadas.length === 0) {
+          mensagem.textContent = "Selecione um professor e ao menos uma turma.";
+          return;
+        }
+
+        const updates = {};
+        turmasSelecionadas.forEach(turmaId => {
+          updates[`turmas_professores/${uidProfessor}/${turmaId}`] = true;
+        });
+
+        update(ref(db), updates)
+          .then(() => {
+            mensagem.textContent = "Vínculo salvo com sucesso!";
+            carregarVinculos();
+          })
+          .catch((error) => {
+            console.error(error);
+            mensagem.textContent = "Erro ao salvar vínculo.";
+          });
+      });
+
+      // Carregar e exibir vínculos existentes
+      function carregarVinculos() {
+        const turmasProfRef = ref(db, 'turmas_professores/');
+        onValue(turmasProfRef, async (snapshot) => {
+          listaProfsTurmas.innerHTML = ''; // Limpa a lista antes de adicionar
+          snapshot.forEach((profSnap) => {
+            const uid = profSnap.key;
+            const turmaIds = Object.keys(profSnap.val());
+
+            turmaIds.forEach(turmaId => {
+              const turmaRef = ref(db, 'turmas/' + turmaId);
+              const usuarioRef = ref(db, 'usuarios/' + uid);
+
+              get(turmaRef).then((turmaSnap) => {
+                const turma = turmaSnap.val();
+                const turno = turnoMap[turma.turno] || 'Sem turno';
+                get(usuarioRef).then((usuarioSnap) => {
+                  const usuario = usuarioSnap.val();
+
+                  const item = document.createElement('li');
+                  item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+                  item.innerHTML = `${usuario.nome} - ${turma.numero} (${turma.nome}) - ${turno}
+                                    <button class="btn btn-sm btn-danger btnExcluir" data-uid="${uid}" data-turmaid="${turmaId}" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                                      <i class="fas fa-trash-alt"></i>
+                                    </button>`;
+                  listaProfsTurmas.appendChild(item);
+                });
+              });
+            });
+          });
+
+          // Adiciona listeners aos botões de exclusão
+          document.querySelectorAll('.btnExcluir').forEach(btn => {
+            btn.addEventListener('click', () => {
+              uidParaExcluir = btn.getAttribute('data-uid');
+              turmaIdParaExcluir = btn.getAttribute('data-turmaid');
+            });
+          });
+        });
+      }
+
+      // Excluir vínculo professor-turma
+      let uidParaExcluir = '';
+      let turmaIdParaExcluir = '';
+
+      document.getElementById('btnConfirmarExcluir').addEventListener('click', () => {
+        if (uidParaExcluir && turmaIdParaExcluir) {
+          const caminho = `turmas_professores/${uidParaExcluir}/${turmaIdParaExcluir}`;
+          set(ref(db, caminho), null)
+            .then(() => {
+              const modal = bootstrap.Modal.getInstance(document.getElementById('modalExcluir'));
+              modal.hide();
+              carregarVinculos();
+            })
+            .catch((error) => {
+              console.error("Erro ao excluir vínculo:", error);
+            });
+        }
+      });
+
+      // Chama ao carregar a página
+      carregarVinculos();
+    </script>
+  </body>
+</html>

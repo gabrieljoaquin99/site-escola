@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cadastro de Usuários</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="css/estilo.css">
+  </head>
+  <body>
+    <!--TOPO NAVBAR-->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-danger p-2">
+      <a href="" class="navbar-brand col-5 col-sm-2 ms-md-3">
+        <img src="img/logo.avif" class="align-items-center w-25" alt="LOGO">
+        Elementary School
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-target">
+        <span class="fa fa-bars text-light display-5"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="nav-target">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="avisos.html">Avisos</a>
+          </li>        
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-aviso.html">Cadastro de Avisos</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-turma.html">Cadastro de Turmas</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link active" href="cad-usuario.html">Cadastro de Usuários</a> 
+          </li>
+          <li class="nav-item m-md-2">
+            <a class="nav-link" href="cad-prof-turma.html">Professores / Turmas</a> 
+          </li>
+          <li class="nav-item m-md-2 text-end me-2">
+            <a class="nav-link" href="login.html">
+              Sair
+              <span class="fa fa-close"></span>
+            </a> 
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="row m-2">
+      <!-- INFO USER -->
+      <div class="align-self-start p-2 col-md-3 mt-2 border border-danger rounded">
+        <div class="d-flex align-items-center justify-content-around">
+          <img src="fontawesome/svgs/solid/user.svg" class="p-2 bg-danger" alt="" width="80" height="80">
+          <div style="overflow: hidden; word-wrap: break-word;">
+            <div class="text-truncate">
+              <span class="m-1 h6">Nome:</span>
+              <span class="">Gabriel Joaquin</span>
+            </div>
+
+            <div class="text-truncate">
+              <span class="m-1 h6">Turma:</span>
+              <span class="">205/2025</span>
+            </div>
+
+            <div class="text-truncate">
+              <span class="m-1 h6">Prof.:</span>
+              <span class="">Rosane Elaine</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAD USER -->
+      <div class="p-2 col ms-md-2 mt-2 border border-danger rounded">
+        <div class="display-6 text-center">Cadastrar Usuário</div>
+        <br>
+        <input class="form-control mb-2" type="text" id="user_nome" placeholder="Nome Completo">
+        <input class="form-control mb-2" type="text" id="user_email" placeholder="Email">
+        <input class="form-control mb-2" type="text" id="user_senha" placeholder="Senha">
+        <input class="form-control mb-2" type="text" id="user_telefone" placeholder="Telefone (Ex: 51912345678)">
+
+        <div class="row">
+          <div class="col-md-5 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <select class="form-select w-100" id="user_tipo">
+                <option selected>Tipo de Usuário</option>
+              </select>
+            </div>
+          </div>
+         
+          <div class="col-md-5 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <select class="form-select w-100" id="user_turma">
+                <option selected>Turma</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-2 mt-2 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <input class="form-check-input text-danger" type="checkbox" id="user_ativo" checked>
+                <label class="form-check-label" for="user_ativo">
+                  Usuário Ativo?
+                </label>
+            </div>
+          </div>
+        </div>
+        
+        <br>
+        <button id="btnAdicionar" type="button" class="btn btn-danger w-100" url="">Adicionar</button>
+        <p id="mensagem" class="mb-0" style="color:red;"></p>
+      </div>
+    </div>  
+
+    <!-- USUARIOS -->
+    <div class="row m-2">
+      <div class="align-self-start p-2 col-md-3"></div>
+
+      <div class="p-2 col ms-md-2 border border-danger rounded">
+        <div class="display-6 text-center">Usuários</div>
+        <br>
+        <ul id="listaUsuarios" class="list-group"></ul>
+      </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalExcluirLabel">Confirmar Exclusão</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            Tem certeza que deseja excluir este usuário?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" id="btnConfirmarExcluir" class="btn btn-danger">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>   
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- SCRIPTS FIREBASE -->
+    <script type="module">
+      import { db } from './js/firebase-init.js';
+      import {
+        ref,
+        push,
+        onValue,
+        remove,
+        update
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+    
+      let editando = false;
+      let chaveEditando = null;
+      let chaveParaExcluir = null;
+    
+      const listaUsuarios = document.getElementById("listaUsuarios");
+      const mensagem = document.getElementById("mensagem");
+      const btnAdicionar = document.getElementById('btnAdicionar');
+    
+      // Função para limpar o formulário
+      const limparFormulario = () => {
+        document.getElementById("user_nome").value = "";
+        document.getElementById("user_email").value = "";
+        document.getElementById("user_senha").value = "";
+        document.getElementById("user_telefone").value = "";
+        document.getElementById("user_tipo").value = "Tipo de Usuário";
+        document.getElementById("user_turma").value = "Turma";
+        document.getElementById("user_ativo").checked = true;
+      };
+    
+      // ADD USER (Cadastro e Atualização)
+      btnAdicionar.addEventListener("click", () => {
+        const nome = document.getElementById("user_nome").value.trim();
+        const email = document.getElementById("user_email").value.trim();
+        const senha = document.getElementById("user_senha").value.trim();
+        const telefone = document.getElementById("user_telefone").value.trim();
+        const tipo = document.getElementById("user_tipo").value;
+    
+        // Validação para garantir que o tipo seja selecionado
+        if (tipo === "Tipo de Usuário") {
+          mensagem.innerText = "Selecione o tipo de usuário.";
+          mensagem.style.color = "red";
+          return;
+        }
+    
+        let turma = document.getElementById("user_turma").value;
+        turma = (turma === "Turma" || turma.trim() === "") ? null : turma;
+    
+        const ativo = document.getElementById("user_ativo").checked;
+    
+        if (!nome || !email || !senha) {
+          mensagem.innerText = "Preencha os campos obrigatórios.";
+          mensagem.style.color = "red";
+          return;
+        }
+    
+        const usuario = { nome, email, senha, telefone, tipo, turma, ativo };
+    
+        if (editando && chaveEditando) {
+          update(ref(db, "usuarios/" + chaveEditando), usuario)
+            .then(() => {
+              mensagem.innerText = "Usuário atualizado com sucesso!";
+              mensagem.style.color = "green";
+              editando = false;
+              chaveEditando = null;
+              btnAdicionar.innerText = "Adicionar";
+              limparFormulario();
+            })
+            .catch((error) => {
+              mensagem.innerText = "Erro ao atualizar.";
+              console.error(error);
+            });
+        } else {
+          push(ref(db, "usuarios/"), usuario)
+            .then(() => {
+              mensagem.innerText = "Usuário adicionado com sucesso!";
+              mensagem.style.color = "green";
+              limparFormulario();
+            })
+            .catch((error) => {
+              mensagem.innerText = "Erro ao adicionar usuário.";
+              console.error(error);
+            });
+        }
+      });
+    
+      // LISTAR USUÁRIOS COM BOTÕES
+      onValue(ref(db, "usuarios/"), (snapshot) => {
+        listaUsuarios.innerHTML = "";
+        snapshot.forEach((childSnapshot) => {
+          const user = childSnapshot.val();
+          const key = childSnapshot.key;
+    
+          const li = document.createElement("li");
+          li.className = "list-group-item d-flex justify-content-between align-items-center";
+    
+          li.innerHTML = `
+            <div>
+              <strong>${user.nome}</strong> - ${user.email} - ${user.tipo} - ${user.turma}
+            </div>
+            <div>
+              <button class="fa fa-pen-to-square text-light btn btn-sm btn-warning me-1" onclick="editarUsuario('${key}', '${user.nome}', '${user.email}', '${user.senha}', '${user.telefone}', '${user.tipo}', '${user.turma}', ${user.ativo})"></button>
+              <button class="fa fa-trash text-light btn btn-sm btn-danger" onclick="confirmarExcluir('${key}')"></button>
+            </div>
+          `;
+          listaUsuarios.appendChild(li);
+        });
+      });
+    
+      // CONFIRMAR EXCLUSÃO – armazena a chave e abre o modal
+      window.confirmarExcluir = (chave) => {
+        chaveParaExcluir = chave;
+        // Abre o modal
+        const modalExcluir = new bootstrap.Modal(document.getElementById('modalExcluir'));
+        modalExcluir.show();
+      };
+    
+      // EXCLUIR USUÁRIO – executa a exclusão se confirmado
+      const btnConfirmarExcluir = document.getElementById('btnConfirmarExcluir');
+      btnConfirmarExcluir.addEventListener('click', () => {
+        if (chaveParaExcluir) {
+          remove(ref(db, "usuarios/" + chaveParaExcluir))
+            .then(() => {
+              mensagem.innerText = "Usuário excluído com sucesso!";
+              mensagem.style.color = "green";
+            })
+            .catch((error) => {
+              mensagem.innerText = "Erro ao excluir usuário.";
+              console.error(error);
+            });
+        }
+        // Fecha o modal
+        const modalExcluir = bootstrap.Modal.getInstance(document.getElementById('modalExcluir'));
+        modalExcluir.hide();
+      });
+    
+      // EDITAR USUÁRIO – preenche o formulário para edição
+      window.editarUsuario = (chave, nome, email, senha, telefone, tipo, turma, ativo) => {
+        document.getElementById("user_nome").value = nome;
+        document.getElementById("user_email").value = email;
+        document.getElementById("user_senha").value = senha;
+        document.getElementById("user_telefone").value = telefone;
+        document.getElementById("user_tipo").value = tipo;
+        document.getElementById("user_turma").value = turma;
+        document.getElementById("user_ativo").checked = ativo;
+    
+        editando = true;
+        chaveEditando = chave;
+        btnAdicionar.innerText = "Atualizar";
+      };
+
+      // Carrega as turmas no select user_turma
+      onValue(ref(db, "turmas/"), (snapshot) => {
+        const selectTurma = document.getElementById("user_turma");
+
+        // Limpa o select e adiciona a opção padrão
+        selectTurma.innerHTML = '<option selected>Turma</option>';
+
+        snapshot.forEach((childSnapshot) => {
+          const turma = childSnapshot.val();
+          const option = document.createElement("option");
+
+          // Define o valor e o texto da opção
+          option.value = turma.numero;  // Você pode mudar para turma.numero, se quiser
+          option.textContent = `${turma.numero} - ${turma.nome}`; // Exibe número + nome
+
+          selectTurma.appendChild(option);
+        });
+      });    
+    </script>    
+  </body>
+</html>
