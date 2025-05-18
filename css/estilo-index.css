@@ -90,7 +90,7 @@ footer a:hover {
     background-image: url('../img/back1.jpg');
     background-attachment: fixed;
     background-size: cover;
-    background-position: center top;
+    background-position: center cover;
     background-repeat: no-repeat;
     color: white;
     position: relative;
@@ -134,4 +134,8 @@ footer a:hover {
 
 .swiper-pagination-bullet-active {
     background: #007bff;
+}
+
+.depoSwiper .swiper-slide {
+    height: auto;
 }
