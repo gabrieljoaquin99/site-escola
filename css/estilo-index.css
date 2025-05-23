@@ -87,7 +87,8 @@ footer a:hover {
 }
 
 .bg-tur-dep {
-    background-image: url('../img/back1.jpg');
+    background: linear-gradient(rgba(0, 123, 255, 0.6), rgba(0, 123, 255, 0.8)), 
+        url('../img/back1.jpg') center/cover no-repeat;
     background-attachment: fixed;
     background-size: cover;
     background-position: center cover;
